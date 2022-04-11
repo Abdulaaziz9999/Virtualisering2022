@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>kjøber bilter</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        function kjopeBillet() {
+            const bilter = {
+                film: $("#film").val(),
+                fornavn: $("#fornavn").val(),
+                etternavn: $("#etternavn").val(),
+                telfon: $("#telfon").val(),
+                epost: $("#epost").val(),
+                antall: $("#antall").val()
+            };
+            if (inputtum(bilter)) {
+                $.post("/lagre", bilter, function () {
+                    hentAlle();
+                });
+                $("#film").val("");
+                $("#fornavn").val("");
+                $("#etternavn").val("");
+                $("#telfon").val("");
+                $("#epost").val("");
+                $("#antall").val("");
+            } else {
+                if ($("#fornavn").val() === "") {
+                    $("#feil2").html("Du mangeler fornavn")
+                }
+                if ($("#film").val() === "") {
+                    $("#film").html("du mangler film")
+                }
+                if ($("#etternavn").val() === "") {
+                    $("#feil3").html("du mangler etternavn")
+                }
+                if ($("#telfon").val() === "") {
+                    $("#feil4").html("du mangler telfon")
+                }
+
+                if ($("#epost").val() === "") {
+                    $("#feil5").html("du mangler epost")
+                }
+
+                if ($("#antall").val() === "") {
+                    $("#feil1").html("du mangler antall")
+                }
+            }
+        }
+
+        function hentAlle() {
+            $.get("/hentAlle", function (list) {
+                formaterData(list)
+
+            });
+        }
+
+        function inputtum(bilter) {
+            if (bilter.film === "") return false
+            else if (bilter.fornavn === "") return false
+            else if (bilter.etternavn === "") return false
+            else if (bilter.telfon === "") return false
+            else if (bilter.epost === "") return false
+            else return (bilter.antall !== "");
+        }
+
+        function formaterData(lister) {
+            let ut = `<table class="table"><thead><tr><th>film</th><th>forNavn</th>`
+                + `<th>etternavn</th><th>telfon</th><th>epost</th><th>antall</th></tr></thead>`;
+            for (const list of lister) {
+                ut += `<tr><td>${list.film}</td><td>${list.fornavn}</td><td>${list.etternavn}</td>`
+                    + `<td>${list.telfon}</td><td>${list.epost}</td><td>${list.antall}</td></tr>`;
+            }
+            ut += "</table>";
+
+            $("#filmene").html(ut);
+        }
+
+        function slettAlle() {
+            $.get("/slettAlle", function () {
+                hentAlle();
+            });
+        }
+    </script>
+
+</head>
+<body>
+
+<div class="container" >
+    <form class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="film">Film</label>
+                <select name="film" id="film" class="form-control">
+                    <option value="Action">ACTION</option>
+                    <option value="romantic">ROMANTIC</option>
+                    <option value="movis">MOVIS</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="antall">antall</label>
+                <input type="number" id="antall" class="form-control">
+                <span id="feil1"></span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fornavn">fornavn </label>
+            <input class="form-control" type="text" id="fornavn"/>
+
+            <span id="feil2"></span>
+
+
+        </div>
+        <div class="form-group">
+            <label for="etternavn">etternavn</label>
+            <input class="form-control" type="text" id="etternavn"/>
+            <span id="feil3"></span>
+
+        </div>
+        <div class="form-group">
+            <label for="telfon">telfon</label>
+            <input class="form-control" type="text" id="telfon"/>
+            <span id="feil4"></span>
+
+        </div>
+        <div class="form-group">
+            <label for="epost">epost</label>
+            <input class="form-control" type="text" id="epost">
+            <span id="feil5"></span>
+
+        </div>
+
+    </form>
+    <button class="btn btn-primary" value="kjøpe billte" onclick="kjopeBillet()">kjope biletet</button>
+    <button class="btn btn-danger" onclick="slettAlle()">slutt all biltt</button>
+
+    <h3>Alle kundene</h3>
+    <div class="container">
+        <div id="filmene"></div>
+    </div>
+</div>
+</body>
+</html>
