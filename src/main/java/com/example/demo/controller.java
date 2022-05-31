@@ -14,12 +14,12 @@ public class controller {
    private Bilitrepostory rep;
 
     @GetMapping("/hentAlle")
-    public List<Bilter> hentAlle() {
+    public List<Kamper> hentAlle() {
         return rep.hentalle();
     }
 
     @PostMapping("/lagre")
-    public void leggTilkunde(Bilter innbilt) {
+    public void leggTilkunde(Kamper innbilt) {
         rep.leggTilkunde(innbilt);
     }
     @GetMapping("slettAlle")

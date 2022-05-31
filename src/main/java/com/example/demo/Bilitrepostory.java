@@ -14,20 +14,20 @@ public class Bilitrepostory {
     @Autowired
     private JdbcTemplate db;
 
-    public void leggTilkunde(Bilter innbilter){
-        String sql = "INSERT INTO Bilter (film , fornavn , etternavn, telfon, epost,antall)VALUES(?,?,?,?,?,?)";
-        db.update(sql, innbilter.getfilm(),innbilter.getfornavn(),innbilter.getetternavn(),
-                innbilter.gettelfon(),innbilter.getepost(),innbilter.getantall() );
+    public void leggTilkunde(Kamper innKamper){
+        String sql = "INSERT INTO Kamper (kamp , fornavn , etternavn, telfon, epost,antall)VALUES(?,?,?,?,?,?)";
+        db.update(sql, innKamper.getkamp(),innKamper.getfornavn(),innKamper.getetternavn(),
+                innKamper.gettelfon(),innKamper.getepost(),innKamper.getantall() );
 
     }
-    public List<Bilter> hentalle(){
-        String sql = "SELECT * FROM Bilter ";
-        List<Bilter>allebilter=db.query(sql,new BeanPropertyRowMapper(Bilter.class));
-        Collections.sort(allebilter);
-        return allebilter;
+    public List<Kamper> hentalle(){
+        String sql = "SELECT * FROM Kamper ";
+        List<Kamper>alleKamper=db.query(sql,new BeanPropertyRowMapper(Kamper.class));
+        Collections.sort(alleKamper);
+        return alleKamper;
     }
      public  void sletall(){
-        String sql = "DELETE FROM BILTER";
+        String sql = "DELETE FROM Kamper";
         db.update(sql);
      }
 }

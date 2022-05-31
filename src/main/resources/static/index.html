@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<style>
+    body {
+        background-image: url(https://www.realmadrid.com/img/ultrapanoramica_1500px/fondoentradasfutbol_20190710030434.jpg);
+        background-color: #cccccc;
+    }
+
+    label {
+        color: white !important;
+    }
+
+    table {
+        background: white;
+    }
+
+    form {
+        max-width: 65vw;
+        margin-left: 20vw;
+        margin-right: 20vw
+    }
+</style>
 <head>
     <meta charset="UTF-8">
-    <title>kjøber bilter</title>
+    <title>kjøber kamper</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         function kjopeBillet() {
-            const bilter = {
-                film: $("#film").val(),
+            const kamper = {
+                kamp: $("#kamp").val(),
                 fornavn: $("#fornavn").val(),
                 etternavn: $("#etternavn").val(),
                 telfon: $("#telfon").val(),
                 epost: $("#epost").val(),
                 antall: $("#antall").val()
             };
-            if (inputtum(bilter)) {
-                $.post("/lagre", bilter, function () {
+            if (inputtum(kamper)) {
+                $.post("/lagre", kamper, function () {
                     hentAlle();
                 });
-                $("#film").val("");
+                $("#kamp").val("");
                 $("#fornavn").val("");
                 $("#etternavn").val("");
                 $("#telfon").val("");
@@ -29,8 +49,8 @@
                 if ($("#fornavn").val() === "") {
                     $("#feil2").html("Du mangeler fornavn")
                 }
-                if ($("#film").val() === "") {
-                    $("#film").html("du mangler film")
+                if ($("#kamp").val() === "") {
+                    $("#kamp").html("du mangler kamp")
                 }
                 if ($("#etternavn").val() === "") {
                     $("#feil3").html("du mangler etternavn")
@@ -56,25 +76,25 @@
             });
         }
 
-        function inputtum(bilter) {
-            if (bilter.film === "") return false
-            else if (bilter.fornavn === "") return false
-            else if (bilter.etternavn === "") return false
-            else if (bilter.telfon === "") return false
-            else if (bilter.epost === "") return false
-            else return (bilter.antall !== "");
+        function inputtum(kamper) {
+            if (kamper.kamp === "") return false
+            else if (kamper.fornavn === "") return false
+            else if (kamper.etternavn === "") return false
+            else if (kamper.telfon === "") return false
+            else if (kamper.epost === "") return false
+            else return (kamper.antall !== "");
         }
 
         function formaterData(lister) {
-            let ut = `<table class="table"><thead><tr><th>film</th><th>forNavn</th>`
+            let ut = `<table class="table"><thead><tr><th>kamp</th><th>forNavn</th>`
                 + `<th>etternavn</th><th>telfon</th><th>epost</th><th>antall</th></tr></thead>`;
             for (const list of lister) {
-                ut += `<tr><td>${list.film}</td><td>${list.fornavn}</td><td>${list.etternavn}</td>`
+                ut += `<tr><td>${list.kamp}</td><td>${list.fornavn}</td><td>${list.etternavn}</td>`
                     + `<td>${list.telfon}</td><td>${list.epost}</td><td>${list.antall}</td></tr>`;
             }
             ut += "</table>";
 
-            $("#filmene").html(ut);
+            $("#kampene").html(ut);
         }
 
         function slettAlle() {
@@ -85,17 +105,31 @@
     </script>
 
 </head>
+
 <body>
 
-<div class="container" >
-    <form class="container">
+<div class="container">
+    <form class="container" onsubmit="return false">
         <div class="row">
             <div class="col-md-4">
-                <label for="film">Film</label>
-                <select name="film" id="film" class="form-control">
-                    <option value="Action">ACTION</option>
-                    <option value="romantic">ROMANTIC</option>
-                    <option value="movis">MOVIS</option>
+                <label for="kamp">kamp</label>
+                <select name="languages" id="kamp" class="form-control">
+                    <option value="Sandefjord-Lillestrøm">Sandefjord ⚽ Lillestrøm</option>
+                    <option value="Molde-KristiansundBK">Molde ⚽ Kristiansund BK</option>
+                    <option value="Tromsø-Viking">Tromsø ⚽ Viking</option>
+                    <option value="Strømsgodset-Vålerenga">Strømsgodset ⚽ Vålerenga</option>
+                    <option value="Haugesund-Bodø/Glimt">Haugesund ⚽ Bodø/Glimt</option>
+                    <option value="Sarpsborg08-Aalesund">Sarpsborg 08 ⚽ Aalesund</option>
+                    <option value="Jerv-Odd">Jerv ⚽ Odd</option>
+                    <option value="HamKam-Rosenborg">HamKam ⚽ Rosenborg</option>
+                    <option value="Bodø/Glimt-Strømsgodset">Bodø/Glimt ⚽ Strømsgodset</option>
+                    <option value="Viking-HamKam">Viking ⚽ HamKam</option>
+                    <option value="KristiansundBK-Tromsø">Kristiansund BK ⚽ Tromsø</option>
+                    <option value="Aalesund-Jerv">Aalesund ⚽ Jerv</option>
+                    <option value="Odd-Sandefjord">Odd ⚽ Sandefjord</option>
+                    <option value="Lillestrøm-Vålerenga">Lillestrøm ⚽ Vålerenga</option>
+                    <option value="Rosenborg-Haugesund">Rosenborg ⚽ Haugesund</option>
+                    <option value="Sarpsborg08-Molde">Sarpsborg 08 ⚽ Molde</option>
                 </select>
             </div>
 
@@ -133,15 +167,21 @@
             <span id="feil5"></span>
 
         </div>
-
+        <button class="btn btn-primary" value="kjøpe billte" onclick="kjopeBillet()">kjope biletet</button>
+        <button class="btn btn-danger" onclick="slettAlle()">slutt all biltt</button>
     </form>
-    <button class="btn btn-primary" value="kjøpe billte" onclick="kjopeBillet()">kjope biletet</button>
-    <button class="btn btn-danger" onclick="slettAlle()">slutt all biltt</button>
 
-    <h3>Alle kundene</h3>
-    <div class="container">
-        <div id="filmene"></div>
+</div>
+
+<div class="row">
+    <div class="col-sm">
+        <h3>Alle kundene</h3>
+        <div class="container">
+            <div id="kampene"></div>
+        </div>
     </div>
 </div>
+
 </body>
+
 </html>

@@ -1,7 +1,7 @@
 package com.example.demo;
 
-public class Bilter implements Comparable<Bilter> {
-    private String film;
+public class Kamper implements Comparable<Kamper> {
+    private String kamp;
     private String fornavn;
     private String etternavn;
     private String telfon;
@@ -9,24 +9,24 @@ public class Bilter implements Comparable<Bilter> {
     private String antall;
 
 
-    public Bilter(String film, String fornavn, String etternavn, String telfon, String epost, String antall) {
-        this.film = film;
+    public Kamper(String kamp, String fornavn, String etternavn, String telfon, String epost, String antall) {
+        this.kamp = kamp;
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.telfon = telfon;
         this.epost = epost;
         this.antall = antall;
     }
-    public Bilter(){
+    public Kamper(){
 
     }
 
-    public String getfilm() {
-        return film;
+    public String getkamp() {
+        return kamp;
     }
 
-    public void setfilm(String film) {
-        this.film = film;
+    public void setkamp(String kamp) {
+        this.kamp = kamp;
     }
 
     public String getfornavn() {
@@ -70,7 +70,7 @@ public class Bilter implements Comparable<Bilter> {
     }
 
     @Override
-    public int compareTo(Bilter o) {
+    public int compareTo(Kamper o) {
        return getetternavn().compareTo(o.getetternavn());
     }
 }
